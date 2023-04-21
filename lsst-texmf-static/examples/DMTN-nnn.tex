@@ -1,0 +1,94 @@
+\documentclass[DM,lsstdraft,authoryear,toc]{lsstdoc}
+
+% Package imports go here
+
+% Local commands go here
+
+\title[Short title]{Title of document}
+
+\author{
+A.~Author,
+B.~Author,
+and
+C.~Author}
+
+\setDocRef{DMTN-nnn}
+\date{\today}
+
+\setDocAbstract{%
+This document demonstrates how to use the LSST \LaTeX\ class files to make a Data Management
+tech note. Build this document in the normal way, making sure that the class file is
+available in the \LaTeX\ load path.
+}
+
+% Change history defined here. Will be inserted into
+% correct place with \maketitle
+% OLDEST FIRST: VERSION, DATE, DESCRIPTION, OWNER NAME
+\setDocChangeRecord{%
+\addtohist{1}{2017-04-17}{Initial release. Based on LDM example}{Tim Jenness}
+\addtohist{2}{yyyy-mm-dd}{Future changes}{Future person}
+}
+
+\begin{document}
+
+% Create the title page
+% Table of contents will be added automatically if "toc" class option
+% is used.
+\maketitle
+
+\section{Introduction}
+
+Now write your document as you would normally write it.
+Different citation schemes are supported, and the default bibliography style is declared by the class.
+In this example we have enabled author-year citing.
+Use \verb|\citeds| for citing docushare documents.
+
+\verb|\citedsp|: \citedsp{LPM-17, LSE-30} \\
+\verb|\citeds|: (SRD; \citeds{LPM-17,LSE-29}) \\
+\verb|\citep[][]|: \citep[e.g.,][are interesting]{2009arXiv0912.0201L,2016SPIE.9913E..0GJ} \\
+\verb|\cite|: \cite{LPM-51,Wang:2011:QDS:2063348.2063364}
+
+Font checking: \texttt{Fixed width font}, \textsc{Small Caps}, \textbf{Bold}, \textit{Italic}, \textbf{\textit{BoldItalic}}.
+
+Math checking: $A = \pi r^2 \smalltilde\mathrm{(math roman)}\mathit{(italic)}\mathsf{(sans serif)} 0 == \zerob \xib$
+
+\begin{equation}
+O(x, z) = \sum_\lambda I(x',\lambda) \otimes D(\lambda, z)
+\end{equation}
+
+Reference a JIRA ticket with \verb|\jira{DM-1234}|: \jira{DM-1234}.
+
+Talk about something that relates to a requirement.\ossreq{1234}
+
+\newtext{We can show new text} \oldtext{and text to be removed}.
+
+\XXX{This is something that needs fixing.}
+
+There are special environments for calling out text blocks.
+
+\begin{note}
+  Default note with default title.
+\end{note}
+
+\begin{note}[Optional Note Title]
+  This is used for note blocks.
+\end{note}
+
+\begin{warning}[Scary]
+  Some warning information.
+\end{warning}
+
+\begin{warning}
+  Default warning title.
+\end{warning}
+
+\begin{draftnote}
+  This text should only appear in draft mode.
+\end{draftnote}
+
+% Include all the relevant bib files.
+% lsst is for DocuShare and DMTN entries.
+% refs_ads is for entries coming from ADS.
+\bibliography{lsst,lsst-dm,refs,books,refs_ads}
+
+\end{document}
