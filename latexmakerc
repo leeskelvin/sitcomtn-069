@@ -1,4 +1,0 @@
-$ENV{'TZ'}='America/Los_Angeles';
-$ENV{'TEXMFHOME'}='./lsst-texmf-static/texmf';
-$ENV{'TEXINPUTS'}='./lsst-texmf-static/texmf//:' . $ENV{'TEXINPUTS'};
-$ENV{'BSTINPUTS'}='./lsst-texmf-static/texmf//:' . $ENV{'BSTINPUTS'};
