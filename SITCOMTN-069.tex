@@ -1,7 +1,8 @@
 \documentclass[SE,authoryear,toc]{lsstdoc}
-\input{meta}
+% \input{meta}
 
 % Package imports go here.
+\usepackage[usestackEOL]{stackengine}
 
 % Local commands go here.
 
@@ -9,7 +10,7 @@
 %\input{aglossary.tex}
 %\makeglossaries
 
-\title{LSB SciUnit: Data Requirements Document}
+\title{LSB SciUnit Data Requirements Document}
 
 % Optional subtitle
 % \setDocSubtitle{A subtitle}
@@ -21,7 +22,10 @@ Lee Kelvin
 \setDocRef{SITCOMTN-069}
 \setDocUpstreamLocation{\url{https://github.com/lsst-sitcom/sitcomtn-069}}
 
-\date{\vcsDate}
+% The vcsDate command is not available without make;
+% Commenting out here to allow Overleaf to compile.
+% \date{\vcsDate}
+\date{YYYY-MM-DD}
 
 % Optional: name of the document's curator
 % \setDocCurator{The Curator of this Document}
@@ -35,7 +39,7 @@ This technote summarizes the data required by the Sky Background, Low Surface Br
 % Fields: VERSION, DATE, DESCRIPTION, OWNER NAME.
 % See LPM-51 for version number policy.
 \setDocChangeRecord{%
-  \addtohist{1}{YYYY-MM-DD}{Unreleased.}{Lee Kelvin}
+  \addtohist{1}{2023-04-24}{Initial draft.}{Lee Kelvin}
 }
 
 
@@ -48,6 +52,106 @@ This technote summarizes the data required by the Sky Background, Low Surface Br
 
 % ADD CONTENT HERE
 % You can also use the \input command to include several content files.
+
+\section{Introduction}  \label{sec:introduction}
+
+The Sky Background, Low Surface Brightness, Ghosts and Scattered Light SIT-Com Science Unit (\textit{LSB SciUnit} hereafter) consists of in-kind contributor groups and associated interested parties concerned with matters relating to low surface brightness science. See \href{https://sitcomtn-050.lsst.io/}{SITCOMTN-050} for a summary of the groups and individuals making in-kind contributions to the Vera C. Rubin Observatory System Integration, Test, and Commissioning (SIT-Com) effort.
+
+The LSB SciUnit is charged with refining, verifying and validating five normative requirements taken from two key documents: \href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-29}{LSE-29: LSST System Requirements (LSR)}, and \href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-30}{LSE-30: Observatory System Specifications (OSS)}:
+\begin{description}
+  \item[Refine] \hfill \\ Parse the normative requirements to determine the questions that need to be asked and the data required to address these questions.
+  \item[Verify] \hfill \\ Check that the requirements are satisfied.
+  \item[Validate] \hfill \\ Show that science can be done with these data products.
+\end{description}
+
+The purpose of this Data Requirements Document (\textit{DRD} hereafter) is to begin the first phase of this process, refining the initial definitions laid out in the two definition documents to precisely determine the questions we wish to ask and the data required to address those questions.
+
+For more information, see the notes and linked resources listed on our \href{https://ls.st/sciunit-lsb}{LSB SciUnit Confluence page}.
+
+\section{Normative Requirements}  \label{sec:requirements}
+
+The five normative requirements to be addressed under the remit of the LSB SciUnit are listed in the following table:
+
+\addtocounter{table}{-1}
+\begin{longtable}{p{0.17\textwidth}p{0.55\textwidth}p{0.23\textwidth}}\hline
+\textbf{Requirement} & \textbf{Description} & \textbf{Focus Group}  \\\hline
+\href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-29\#page=29}{LSR-REQ-0009} & Stray and Scattered Light & \Centerstack[l]{Alex Drlica-Wagner \\ Ian Dell'Antonio} \\
+\href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-30\#page=169}{OSS-REQ-0222} & Ghost Image Control & Lee Kelvin \\
+\href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-30\#page=170}{OSS-REQ-0223} & Lens Anti-Reflection Coating & Annika Peter \\
+\href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-30\#page=171}{OSS-REQ-0225} & Lunar Stray Light & Ian Dell'Antonio \\
+\href{https://docushare.lsst.org/docushare/dsweb/Get/LSE-30\#page=124}{OSS-REQ-0387} & Photometric Performance (ghosts, sky brightness) & Aaron Watkins \\\hline
+\end{longtable}
+
+The subsections below provide more detail on each requirement. Our refined interpretation of the initial definition is presented, and the required data is described.
+
+\subsection{LSR-REQ-0009: Stray and Scattered Light}  \label{sec:stray}
+
+\textbf{Requirement:} The LSST design shall control the effects of stray and scattered light to the extent necessary to meet the performance in the Survey Specifications.
+
+\textbf{Discussion:} Stray and scattered light is defined as any light that is not part of the ideal image and includes:
+\begin{itemize}
+    \item diffuse scattered light,
+    \item secondary ghost images,
+    \item diffraction, and
+    \item structured glints.
+\end{itemize}
+
+\subsection{OSS-REQ-0222: Ghost Image Control}  \label{sec:ghosts}
+
+\textbf{Specification:} The effects of image ghosts in single visits shall not increase the errors in photometric repeatability of non-varying sources by more than \textit{ghostPhotErr} above the limit set by the calculated noise (photon statistics and other measured noise sources). 
+
+\textbf{Specification:} No more than \textit{ghostGradientArea} \% of image area in a single visit shall be affected by ghosts with surface brightness gradients on 1 arcsec scale exceeding 1/3 of the
+sky noise.
+
+\textbf{Discussion:} These requirements limit the impact of ghosting. The first requirement effectively places an upper limit on the precision of sky brightness determination (~1 \% for design specification), which may be affected by ghosts. The second requirement is derived from the effects of ghosting on shape systematics on the scale of faint galaxies.
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.07\textwidth}p{0.1\textwidth}p{0.22\textwidth}}\hline
+    \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\\hline
+    The maximum scientific image area that can be affected by 1 arcsec scale ghost gradients exceeding 1/3 of the sky noise shall be no more than \textit{ghostGradientArea}. & 1.0 & percent & ghostGradientArea \\\hline
+    The increase in photometric error over repeated measurements caused by the effects of image ghosts shall not exceed \textit{ghostPhotErr}. & 10.0 & percent & ghostPhotErr \\\hline
+\end{tabular}
+\end{center}
+
+\subsection{OSS-REQ-0223: Lens Anti-Reflection Coating} 
+ \label{sec:arcoating}
+
+\textbf{Specification:} The reflection at any location in the pupil for any field angle in the 3.5 degree field of view on any transmissive optical surface (not including filters), shall be less than \textit{lensReflection} at all wavelengths between 300-1100nm using the r-band beam angles of incidence defined in LSE-11.
+
+\textbf{Discussion:} These specifications constrain the intensity of the 2-reflection ghost images. The r-band beam defined in LSE-11 has been designated the nominal beam for use in evaluating the lens reflections. That definition includes the beam angles at both surfaces of each lens.
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.07\textwidth}p{0.1\textwidth}p{0.22\textwidth}}\hline
+    \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\\hline
+    The maximum allowable reflection fraction from any lens surface after AR coating. & 2 & percent & lensReflection \\\hline
+\end{tabular}
+\end{center}
+
+\subsection{OSS-REQ-0225: Lunar Stray Light}  \label{sec:lunar}
+
+\textbf{Specification:} All sources of stray light that contribute more than \textit{strayThreshold} relative to the natural sky background within \textit{lunarAngle} shall be identified and treated to minimize their impact on diffuse stray light.
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.07\textwidth}p{0.1\textwidth}p{0.22\textwidth}}\hline
+    \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\\hline
+    The limiting angle from the moon with respect to the optical axis where surface contributions to stray light need to be identified. & 45 & degree & lunarAngle \\\hline
+    The threshold above which surfaces need to be identified and treated for minimization of stray light. & 10 & percent & strayThreshold \\\hline
+\end{tabular}
+\end{center}
+
+\subsection{OSS-REQ-0387: Photometric Performance (ghosts, sky brightness)}  \label{sec:photometric}
+
+\textbf{Specification:} The photometric quality of images from a single visit shall meet the specifications listed in the table photometricPerformance (partially reproduced below).
+
+\textbf{Discussion:} The specifications for photometric repeatability, PA1, PA2 and PF1, applies to the cataloged LSST magnitudes, mstd(catalog) (see SRD eq. 8), for appropriately chosen main sequence stars (e.g. non-variable stars color-selected from the main stellar locus).
+
+\begin{center}
+\begin{tabular}{p{0.45\textwidth}p{0.07\textwidth}p{0.1\textwidth}p{0.22\textwidth}}\hline
+    \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\\hline
+    The maximum error in the precision of the sky brightness determination. & 1 & percent & SBPrec \\\hline
+    Percentage of image area that can have ghosts with surface brightness gradient amplitude of more than 1/3 of the sky noise over 1 arcsec. & 1 & percent & GhostAF \\\hline
+\end{tabular}
+\end{center}
 
 \appendix
 % Include all the relevant bib files.
