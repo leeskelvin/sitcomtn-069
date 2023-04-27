@@ -156,6 +156,12 @@ sky noise.
 
 \textbf{Discussion:} The specifications for photometric repeatability, PA1, PA2 and PF1, applies to the cataloged LSST magnitudes, mstd(catalog) (see SRD eq. 8), for appropriately chosen main sequence stars (e.g. non-variable stars color-selected from the main stellar locus).
 
+\textbf{Data sets:} 
+
+Tracking the sky brightness, for the calculation of the theoretical sky noise, can utilize the output of the skyCorrection task, contained within the spline parameters for the global sky gradient (bgModel, in the current implementation).
+
+Comparing this theoretical sky noise with the measured sky noise can be done with skyObjects.  Regions of enhanced noise, e.g. from the presence of ghosts or reflections, can be pinpointed this way.
+
 \begin{center}
 \begin{tabular}{p{0.45\textwidth}p{0.07\textwidth}p{0.1\textwidth}p{0.22\textwidth}}\hline
     \textbf{Description} & \textbf{Value} & \textbf{Unit} & \textbf{Name} \\\hline
